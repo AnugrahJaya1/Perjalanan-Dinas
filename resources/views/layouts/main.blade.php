@@ -29,7 +29,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="/home">
+                <a class="nav-link" href="/perdins">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -39,7 +39,7 @@
 
             <!-- Nav Item - Employee Management -->
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('/home') }}">
+                <a class="nav-link" href="{{ url('/perdins') }}">
                     <span>Perjalanan Dinas</span></a>
             </li>
 
@@ -62,15 +62,12 @@
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-
-                    
-
                 </nav>
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-                        @yield('content')
+                    @yield('content')
                 </div>
                 <!-- /.container-fluid -->
 
