@@ -18,7 +18,7 @@
         <div class="card-header">
             <div class="row">
                 <div class="col">
-                    <form method="GET" action="">
+                    <form method="GET" action="{{route('perdins.index')}}">
                         <div class="form-row align-items-center">
                             <div class="col">
                                 <input type="search" name="search" class="form-control mb-2" id="inlineFormInput">
@@ -30,7 +30,7 @@
                     </form>
                 </div>
                 <div>
-                    <a href="" class="float-right btn btn-primary mb-2">Create</a>
+                    <a href="{{route('perdins.create')}}" class="float-right btn btn-primary mb-2">Create</a>
                 </div>
             </div>
         </div>
