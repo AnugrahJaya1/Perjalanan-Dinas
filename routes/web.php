@@ -20,5 +20,6 @@ Route::group(
         'namespace' => 'App\Http\Controllers',
     ],function($router){
         Route::get('/', [LoginController::class, 'index'])->name('login');
+        Route::post('/login', [LoginController::class, 'authenticate']);
     }
 );
