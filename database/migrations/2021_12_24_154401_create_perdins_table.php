@@ -15,6 +15,16 @@ class CreatePerdinsTable extends Migration
     {
         Schema::create('perdins', function (Blueprint $table) {
             $table->id();
+            $table->string('alasan_perdin');
+            $table->date('tanggal_berangkat');
+            $table->date('tanggal_pulang');
+            $table->integer('durasi');
+            $table->integer('uang_saku');
+            $table->string('id_pegawai');
+            $table->string('id_lokasi_awal');
+            $table->string('id_lokasi_tujuan');
+            $table->string('id_approval')->nullable();
+            $table->boolean('status');
             $table->timestamps();
         });
     }
