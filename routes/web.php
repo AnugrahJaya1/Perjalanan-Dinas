@@ -25,4 +25,4 @@ Route::group(
     }
 );
 
-Route::get('/perdins', [PerdinController::class, 'index']);
+Route::resource('/perdins', PerdinController::class);
