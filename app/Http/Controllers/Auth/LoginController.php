@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class LoginController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         return view('auth.login');
     }
 
@@ -19,16 +21,15 @@ class LoginController extends Controller
             'password' => ['required']
         ]);
 
-        dd($credentials);
+        $response = Http::post('http://akhdani.net:12345/api/auth/login?username=' . $credentials['username'] . '&password=' . $credentials['password']);
 
-        // if (Auth::attempt($credentials)) {
-        //     $request->session()->regenerate();
-
-        //     return redirect()->intended('dashboard');
-        // }
-
-        // return back()->withErrors([
-        //     'email' => 'The provided credentials do not match our records.',
-        // ]);
+        if ($response->body() == "true") {
+            return redirect()->intended('/dashboard');
+        } else {
+            return back()->with(
+                'message',
+                'Login Failed',
+            );
+        }
     }
 }
