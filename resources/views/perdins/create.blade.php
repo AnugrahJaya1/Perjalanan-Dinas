@@ -34,7 +34,7 @@
                             <label for="tanggal_berangkat" class="col-md-4 col-form-label text-md-left">{{ __('Tanggal Berangkat') }}</label>
 
                             <div class="col-md-6">
-                                <input id="tanggal_berangkat" type="date" class="form-control @error('tanggal_berangkat') is-invalid @enderror" tanggal_berangkat="tanggal_berangkat" value="{{ old('tanggal_berangkat') }}" required>
+                                <input id="tanggal_berangkat" type="date" class="form-control @error('tanggal_berangkat') is-invalid @enderror" name="tanggal_berangkat" value="{{ old('tanggal_berangkat') }}" required>
 
                                 @error('tanggal_berangkat')
                                 <span class="invalid-feedback" role="alert">
@@ -48,7 +48,7 @@
                             <label for="tanggal_pulang" class="col-md-4 col-form-label text-md-left">{{ __('Tanggal Pulang') }}</label>
 
                             <div class="col-md-6">
-                                <input id="tanggal_pulang" type="date" class="form-control @error('tanggal_pulang') is-invalid @enderror" tanggal_pulang="tanggal_pulang" value="{{ old('tanggal_pulang') }}" required>
+                                <input id="tanggal_pulang" type="date" class="form-control @error('tanggal_pulang') is-invalid @enderror" name="tanggal_pulang" value="{{ old('tanggal_pulang') }}" required>
 
                                 @error('tanggal_pulang')
                                 <span class="invalid-feedback" role="alert">
@@ -59,20 +59,20 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="kota_tujuan" class="col-md-4 col-form-label text-md-left">{{ __('Kota Tujuan') }}</label>
+                            <label for="id_lokasi_tujuan" class="col-md-4 col-form-label text-md-left">{{ __('Kota Tujuan') }}</label>
 
                             <div class="col-md-6">
                                 <!-- <input id="country_code" type="text" class="form-control @error('country_code') is-invalid @enderror" name="country_code" value="{{ old('country_code') }}" required autocomplete="country_code" autofocus> -->
-                                <select name="kota_tujuan" id="kota_tujuan" class="form-control">
+                                <select name="id_lokasi_tujuan" id="id_lokasi_tujuan" class="form-control">
                                     @foreach($response as $kota)
                                     <option value="{{$kota['lokasiid']}}">{{$kota['nama']}}</option>
                                     @endforeach
                                 </select>
-                                <!-- @error('country_code')
+                                @error('id_lokasi_tujuan')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
-                                @enderror -->
+                                @enderror
                             </div>
                         </div>
 
