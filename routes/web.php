@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\PerdinController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,3 +24,5 @@ Route::group(
         Route::post('/login', [LoginController::class, 'authenticate']);
     }
 );
+
+Route::get('/perdins', [PerdinController::class, 'index']);

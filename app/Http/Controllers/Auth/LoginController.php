@@ -24,7 +24,7 @@ class LoginController extends Controller
         $response = Http::post('http://akhdani.net:12345/api/auth/login?username=' . $credentials['username'] . '&password=' . $credentials['password']);
 
         if ($response->body() == "true") {
-            return redirect()->intended('/dashboard');
+            return redirect()->intended('/perdins');
         } else {
             return back()->with(
                 'message',
