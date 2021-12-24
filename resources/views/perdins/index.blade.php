@@ -43,12 +43,34 @@
                         <th scope="col">Tanggal Berangkat</th>
                         <th scope="col">Tanggal Pulang</th>
                         <th scope="col">Kota Tujuan</th>
-                        <th scope="col">Durasi</th>
+                        <th scope="col">Durasi (Hari)</th>
                         <th scope="col">Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    
+                    <?php
+                        $i=1;
+                    ?>
+                    @foreach($perdins as $perdin)
+                    <tr>
+                        <td>{{$i}}</td>
+                        <td>{{$perdin->alasan_perdin}}</td>
+                        <td>{{$perdin->tanggal_berangkat}}</td>
+                        <td>{{$perdin->tanggal_pulang}}</td>
+                        <td>{{$perdin->id_lokasi_tujuan}}</td>
+                        <td>{{$perdin->durasi}}</td>
+                        <td>
+                            @if($perdin->status)
+                            <span class="badge badge-success">Approve</span>
+                            @else
+                            <span class="badge badge-secondary">Wait</span>
+                            @endif
+                        </td>
+                    </tr>
+                    <?php
+                        $i++;
+                    ?>
+                    @endforeach
                 </tbody>
             </table>
         </div>
