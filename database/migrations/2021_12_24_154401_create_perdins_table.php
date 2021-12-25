@@ -24,7 +24,7 @@ class CreatePerdinsTable extends Migration
             $table->string('lokasi_awal');
             $table->string('lokasi_tujuan');
             $table->string('id_approval')->nullable();
-            $table->boolean('status');
+            $table->integer('status');
             $table->timestamps();
         });
     }
