@@ -64,8 +64,8 @@
                             <div class="col-md-6">
                                 <!-- <input id="country_code" type="text" class="form-control @error('country_code') is-invalid @enderror" name="country_code" value="{{ old('country_code') }}" required autocomplete="country_code" autofocus> -->
                                 <select name="id_lokasi_tujuan" id="id_lokasi_tujuan" class="form-control">
-                                    @foreach($response as $kota)
-                                    <option value="{{$kota['lokasiid']}}">{{$kota['nama']}}</option>
+                                    @foreach($locations as $location)
+                                    <option value="{{$location['lokasiid']}}">{{$location['nama']}}</option>
                                     @endforeach
                                 </select>
                                 @error('id_lokasi_tujuan')
