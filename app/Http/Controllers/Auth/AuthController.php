@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CookieController;
-use GuzzleHttp\Exception\BadResponseException;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -34,7 +34,7 @@ class AuthController extends Controller
 
         try {
             $response = Http::post('http://akhdani.net:12345/api/auth/login?username=' . $credentials['username'] . '&password=' . $credentials['password'])->json();
-        } catch (BadResponseException $e) {
+        } catch (Exception $e) {
             return back()->with(
                 'message',
                 'Server Error',
@@ -43,7 +43,7 @@ class AuthController extends Controller
 
         try {
             $pegawai = Http::get('http://akhdani.net:12345/api/pegawai/username/' . $credentials['username'])->json();
-        } catch (BadResponseException $e) {
+        } catch (Exception $e) {
             return back()->with(
                 'message',
                 'Server Error',

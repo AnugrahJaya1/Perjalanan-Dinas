@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Perdin;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Http;
@@ -28,7 +29,8 @@ class PerdinController extends Controller
 
         $perdins = Perdin::orderBy('created_at', 'DESC')->get();
         if ($data[2] != 'SDM') {
-            $perdins = Perdin::where('nama_pegawai', 'like', $data[1])->get();
+            $perdins = Perdin::where('nama_pegawai', 'like', $data[1])
+            ->orderBy('created_at', 'DESC')->get();
         }
 
         return response(view('perdins.index', compact('perdins')));
@@ -44,7 +46,11 @@ class PerdinController extends Controller
         $data = $this->cookieController->getCookie();
         if ($this->cookieController->checkCookie($data)) return redirect()->intended('/');
 
-        $locations = Http::get('http://akhdani.net:12345/api/lokasi/list')->json();
+        try {
+            $locations = Http::get('http://akhdani.net:12345/api/lokasi/list')->json();
+        } catch (Exception $e) {
+            return redirect()->intended('/perdins');
+        }
 
         return view('perdins.create', compact('locations'));
     }
@@ -71,8 +77,12 @@ class PerdinController extends Controller
         // id kota bandung (default)
         $id_lokasi_awal = 345;
 
-        $lokasi_awal = Http::get('http://akhdani.net:12345/api/lokasi/' . $id_lokasi_awal)->json();
-        $lokasi_tujuan = Http::get('http://akhdani.net:12345/api/lokasi/' . $data['id_lokasi_tujuan'])->json();
+        try {
+            $lokasi_awal = Http::get('http://akhdani.net:12345/api/lokasi/' . $id_lokasi_awal)->json();
+            $lokasi_tujuan = Http::get('http://akhdani.net:12345/api/lokasi/' . $data['id_lokasi_tujuan'])->json();
+        } catch (Exception $e) {
+            return redirect()->intended('/perdins');
+        }
 
         // hitung jarak lokasi awal dan lokasi tujuan
         $jarak = $this->hitungJarak($lokasi_awal, $lokasi_tujuan);
@@ -105,7 +115,12 @@ class PerdinController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $pegawai = Http::get('http://akhdani.net:12345/api/pegawai/username/' . Cookie::get('username'))->json();
+
+        try {
+            $pegawai = Http::get('http://akhdani.net:12345/api/pegawai/username/' . Cookie::get('username'))->json();
+        } catch (Exception $e) {
+            return redirect()->intended('/perdins');
+        }
         $perdin = Perdin::findOrFail($id);
 
         if ($pegawai['nama'] == $perdin['nama_pegawai']) {
@@ -114,7 +129,7 @@ class PerdinController extends Controller
 
         $perdin->update([
             'id_approval' => $pegawai['pegawaiid'],
-            'status' => ($request->btn == 'approve')? 1:2,
+            'status' => ($request->btn == 'approve') ? 1 : 2,
         ]);
 
         return redirect()->route('perdins.index')->with('message', 'Perdin Approved Succesfully');
