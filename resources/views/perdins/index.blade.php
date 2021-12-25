@@ -44,7 +44,7 @@
                 <thead>
                     <tr>
                         <th scope="col">No.</th>
-                        @if($pegawai['unitkerja']=='SDM')
+                        @if(Cookie::get('unitKerja')=='SDM')
                         <th scope="col">Nama</th>
                         @endif
                         <th scope="col">Tujuan Perdin</th>
@@ -54,7 +54,7 @@
                         <th scope="col">Kota Tujuan</th>
                         <th scope="col">Durasi (Hari)</th>
                         <th scope="col">Status</th>
-                        @if($pegawai['unitkerja']=='SDM')
+                        @if(Cookie::get('unitKerja')=='SDM')
                         <th scope="col">Total Uang Saku</th>
                         <th scope="col">Action</th>
                         @endif
@@ -67,8 +67,8 @@
                     @foreach($perdins as $perdin)
                     <tr>
                         <td>{{$i}}</td>
-                        @if($pegawai['unitkerja']=='SDM')
-                        <td>{{$perdin->nama}}</td>
+                        @if(Cookie::get('unitKerja')=='SDM')
+                        <td>{{$perdin->nama_pegawai}}</td>
                         @endif
                         <td>{{$perdin->alasan_perdin}}</td>
                         <td>{{$perdin->tanggal_berangkat}}</td>
@@ -83,7 +83,7 @@
                             <span class="badge badge-secondary">Wait</span>
                             @endif
                         </td>
-                        @if($pegawai['unitkerja']=='SDM')
+                        @if(Cookie::get('unitKerja')=='SDM')
                         <td>{{number_format($perdin->durasi*$perdin->uang_saku,2)}}</td>
                         <td>
                             <div class="btn-group">
