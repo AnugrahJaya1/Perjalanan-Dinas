@@ -42,14 +42,19 @@
                         <th scope="col">Tujuan Perdin</th>
                         <th scope="col">Tanggal Berangkat</th>
                         <th scope="col">Tanggal Pulang</th>
+                        <th scope="col">Kota Awal</th>
                         <th scope="col">Kota Tujuan</th>
                         <th scope="col">Durasi (Hari)</th>
                         <th scope="col">Status</th>
+                        @if($pegawai['unitkerja']=='SDM')
+                        <th scope="col">Total Uang Saku</th>
+                        <th scope="col">Action</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                        $i=1;
+                    $i = 1;
                     ?>
                     @foreach($perdins as $perdin)
                     <tr>
@@ -57,7 +62,8 @@
                         <td>{{$perdin->alasan_perdin}}</td>
                         <td>{{$perdin->tanggal_berangkat}}</td>
                         <td>{{$perdin->tanggal_pulang}}</td>
-                        <td>{{$perdin->id_lokasi_tujuan}}</td>
+                        <td>{{$perdin->lokasi_awal}}</td>
+                        <td>{{$perdin->lokasi_tujuan}}</td>
                         <td>{{$perdin->durasi}}</td>
                         <td>
                             @if($perdin->status)
@@ -66,9 +72,23 @@
                             <span class="badge badge-secondary">Wait</span>
                             @endif
                         </td>
+                        @if($pegawai['unitkerja']=='SDM')
+                        <td>{{number_format($perdin->durasi*$perdin->uang_saku,2)}}</td>
+                        <td>
+                            <div class="btn-group">
+                                <form method="POST" action="{{route('perdins.update', $perdin->id)}}">
+                                    @csrf
+                                    @method('PUT')
+                                    <button class="btn btn-success">
+                                        Approve
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                        @endif
                     </tr>
                     <?php
-                        $i++;
+                    $i++;
                     ?>
                     @endforeach
                 </tbody>
