@@ -79,7 +79,7 @@
                                 <form method="POST" action="{{route('perdins.update', $perdin->id)}}">
                                     @csrf
                                     @method('PUT')
-                                    <button class="btn btn-success">
+                                    <button class="btn btn-success" @if($perdin->status) disabled @endif>
                                         Approve
                                     </button>
                                 </form>
