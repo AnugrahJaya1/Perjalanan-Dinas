@@ -42,7 +42,7 @@
         <div class="card-body">
             <table class="table">
                 <thead>
-                    <tr>
+                    <tr class="text-center">
                         <th scope="col">No.</th>
                         @if(Cookie::get('unitKerja')=='SDM')
                         <th scope="col">Nama</th>
@@ -53,9 +53,11 @@
                         <th scope="col">Kota Awal</th>
                         <th scope="col">Kota Tujuan</th>
                         <th scope="col">Durasi (Hari)</th>
-                        <th scope="col">Status</th>
                         @if(Cookie::get('unitKerja')=='SDM')
                         <th scope="col">Total Uang Saku</th>
+                        @endif
+                        <th scope="col">Status</th>
+                        @if(Cookie::get('unitKerja')=='SDM')
                         <th scope="col">Action</th>
                         @endif
                     </tr>
@@ -75,23 +77,35 @@
                         <td>{{$perdin->tanggal_pulang}}</td>
                         <td>{{$perdin->lokasi_awal}}</td>
                         <td>{{$perdin->lokasi_tujuan}}</td>
-                        <td>{{$perdin->durasi}}</td>
-                        <td>
-                            @if($perdin->status)
-                            <span class="badge badge-success">Approve</span>
+                        <td class="text-center">{{$perdin->durasi}}</td>
+                        
+                        @if(Cookie::get('unitKerja')=='SDM')
+                        <td>{{number_format($perdin->durasi*$perdin->uang_saku,2)}}</td>
+                        @endif
+                        <td class="text-center">
+                            @if($perdin->status==1)
+                            <span class="badge badge-success">Approved</span>
+                            @elseif($perdin->status==2)
+                            <span class="badge badge-danger">Rejected</span>
                             @else
-                            <span class="badge badge-secondary">Wait</span>
+                            <span class="badge badge-secondary">Please Wait</span>
                             @endif
                         </td>
                         @if(Cookie::get('unitKerja')=='SDM')
-                        <td>{{number_format($perdin->durasi*$perdin->uang_saku,2)}}</td>
-                        <td>
+                        <td class="text-center">
                             <div class="btn-group">
+                                <form method="POST" action="{{route('perdins.update', $perdin->id)}}" class="mr-2">
+                                    @csrf
+                                    @method('PUT')
+                                    <button class="btn btn-success btn-sm" name='btn' value='approve' @if($perdin->status!=0) disabled @endif>
+                                        Approve
+                                    </button>
+                                </form>
                                 <form method="POST" action="{{route('perdins.update', $perdin->id)}}">
                                     @csrf
                                     @method('PUT')
-                                    <button class="btn btn-success" @if($perdin->status) disabled @endif>
-                                        Approve
+                                    <button class="btn btn-danger btn-sm" name='btn' value='reject' @if($perdin->status!=0) disabled @endif>
+                                        Reject
                                     </button>
                                 </form>
                             </div>
