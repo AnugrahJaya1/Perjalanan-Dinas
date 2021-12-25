@@ -103,18 +103,18 @@ class PerdinController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(Request $request, $id)
     {
         $pegawai = Http::get('http://akhdani.net:12345/api/pegawai/username/' . Cookie::get('username'))->json();
         $perdin = Perdin::findOrFail($id);
 
-        if ($pegawai['pegawaiid'] == $perdin['id_pegawai']) {
+        if ($pegawai['nama'] == $perdin['nama_pegawai']) {
             return redirect()->route('perdins.index')->with('error', "You can't approve your own perdin");
         }
 
         $perdin->update([
             'id_approval' => $pegawai['pegawaiid'],
-            'status' => 1
+            'status' => ($request->btn == 'approve')? 1:2,
         ]);
 
         return redirect()->route('perdins.index')->with('message', 'Perdin Approved Succesfully');
