@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Http;
 
 class PerdinController extends Controller
 {
+    private CookieController $cookieController;
+
+    public function __construct()
+    {
+        $this->cookieController = new CookieController();
+    }
+
     /**
      * Show the application dashboard.
      *
@@ -16,15 +23,15 @@ class PerdinController extends Controller
      */
     public function index()
     {
-        // dd(Cookie::get('username'));
-        $pegawai = Http::get('http://akhdani.net:12345/api/pegawai/username/' . Cookie::get('username'))->json();
+        $data = $this->cookieController->getCookie();
+        if ($this->cookieController->checkCookie($data)) return redirect()->intended('/');
 
-        $perdins = Perdin::all();
-        if ($pegawai['unitkerja'] != 'SDM') {
-            $perdins = Perdin::where('id_pegawai', $pegawai['pegawaiid'])->get();
+        $perdins = Perdin::orderBy('created_at', 'DESC')->get();
+        if ($data[2] != 'SDM') {
+            $perdins = Perdin::where('nama_pegawai', 'like', $data[1])->get();
         }
 
-        return response(view('perdins.index', compact('perdins', 'pegawai')))->cookie('username', $pegawai['username'], 60);
+        return response(view('perdins.index', compact('perdins')));
     }
 
     /**
@@ -34,10 +41,12 @@ class PerdinController extends Controller
      */
     public function create()
     {
-        $pegawai = Http::get('http://akhdani.net:12345/api/pegawai/username/' . Cookie::get('username'))->json();
-        $response = Http::get('http://akhdani.net:12345/api/lokasi/list')->json();
+        $data = $this->cookieController->getCookie();
+        if ($this->cookieController->checkCookie($data)) return redirect()->intended('/');
 
-        return view('perdins.create', compact('response', 'pegawai'));
+        $locations = Http::get('http://akhdani.net:12345/api/lokasi/list')->json();
+
+        return view('perdins.create', compact('locations'));
     }
 
     /**
@@ -55,22 +64,21 @@ class PerdinController extends Controller
             'id_lokasi_tujuan' => ['required', 'integer']
         ]);
 
-        // dd($data);
-
+        // hitung durasi hari perjalanan dinas
         $durasi = date_diff(date_create($data['tanggal_berangkat']), date_create($data['tanggal_pulang']));
         $durasi = substr($durasi->format("%R%a"), 1);
 
-        $id_lokasi_awal = 345; // id kota bandung (default)
+        // id kota bandung (default)
+        $id_lokasi_awal = 345;
 
         $lokasi_awal = Http::get('http://akhdani.net:12345/api/lokasi/' . $id_lokasi_awal)->json();
         $lokasi_tujuan = Http::get('http://akhdani.net:12345/api/lokasi/' . $data['id_lokasi_tujuan'])->json();
 
+        // hitung jarak lokasi awal dan lokasi tujuan
         $jarak = $this->hitungJarak($lokasi_awal, $lokasi_tujuan);
 
+        // hitung uang saku
         $uang_saku = $this->hitungUangSaku($jarak, $lokasi_awal, $lokasi_tujuan);
-
-        $pegawai = Http::get('http://akhdani.net:12345/api/pegawai/username/' . Cookie::get('username'))->json();
-        $id_peangawai = $pegawai['pegawaiid'];
 
         Perdin::create([
             'alasan_perdin' => $request['alasan_perdin'],
@@ -78,15 +86,14 @@ class PerdinController extends Controller
             'tanggal_pulang' => $request['tanggal_pulang'],
             'durasi' => $durasi,
             'uang_saku' => $uang_saku,
-            'id_pegawai' => $id_peangawai,
-            'nama' => $pegawai['nama'],
+            'nama_pegawai' => Cookie::get('nama'),
             'lokasi_awal' => $lokasi_awal['nama'],
             'lokasi_tujuan' => $lokasi_tujuan['nama'],
             'id_approval' => null,
             'status' => 0
         ]);
 
-        return redirect()->route('perdins.index')->with('message', 'Perdin Registered Succesfully')->cookie('username', $pegawai['username'], 60);
+        return redirect()->route('perdins.index')->with('message', 'Perdin Registered Succesfully');
     }
 
     /**
@@ -101,7 +108,7 @@ class PerdinController extends Controller
         $pegawai = Http::get('http://akhdani.net:12345/api/pegawai/username/' . Cookie::get('username'))->json();
         $perdin = Perdin::findOrFail($id);
 
-        if($pegawai['pegawaiid']==$perdin['id_pegawai']){
+        if ($pegawai['pegawaiid'] == $perdin['id_pegawai']) {
             return redirect()->route('perdins.index')->with('error', "You can't approve your own perdin");
         }
 
