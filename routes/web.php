@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\PerdinController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,14 +15,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::group(
-    [
-        'middleware' => 'guest',
-        'namespace' => 'App\Http\Controllers',
-    ],function($router){
-        Route::get('/', [LoginController::class, 'index'])->name('login');
-        Route::post('/login', [LoginController::class, 'authenticate']);
-    }
-);
-
+// Route::group(
+//     [
+//         'middleware' => 'guest',
+//         'namespace' => 'App\Http\Controllers',
+//     ],function($router){
+        // Route::get('/', [LoginController::class, 'index'])->name('login');
+        // Route::post('/login', [LoginController::class, 'authenticate']);
+//     }
+// );
+Route::get('/', [AuthController::class, 'index'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);
 Route::resource('/perdins', PerdinController::class);
