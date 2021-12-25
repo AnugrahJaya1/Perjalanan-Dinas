@@ -44,6 +44,9 @@
                 <thead>
                     <tr>
                         <th scope="col">No.</th>
+                        @if($pegawai['unitkerja']=='SDM')
+                        <th scope="col">Nama</th>
+                        @endif
                         <th scope="col">Tujuan Perdin</th>
                         <th scope="col">Tanggal Berangkat</th>
                         <th scope="col">Tanggal Pulang</th>
@@ -64,6 +67,9 @@
                     @foreach($perdins as $perdin)
                     <tr>
                         <td>{{$i}}</td>
+                        @if($pegawai['unitkerja']=='SDM')
+                        <td>{{$perdin->nama}}</td>
+                        @endif
                         <td>{{$perdin->alasan_perdin}}</td>
                         <td>{{$perdin->tanggal_berangkat}}</td>
                         <td>{{$perdin->tanggal_pulang}}</td>

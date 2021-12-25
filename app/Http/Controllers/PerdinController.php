@@ -79,6 +79,7 @@ class PerdinController extends Controller
             'durasi' => $durasi,
             'uang_saku' => $uang_saku,
             'id_pegawai' => $id_peangawai,
+            'nama' => $pegawai['nama'],
             'lokasi_awal' => $lokasi_awal['nama'],
             'lokasi_tujuan' => $lokasi_tujuan['nama'],
             'id_approval' => null,
