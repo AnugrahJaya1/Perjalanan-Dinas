@@ -21,6 +21,7 @@ class CreatePerdinsTable extends Migration
             $table->integer('durasi');
             $table->integer('uang_saku');
             $table->integer('id_pegawai');
+            $table->string('nama');
             $table->string('lokasi_awal');
             $table->string('lokasi_tujuan');
             $table->string('id_approval')->nullable();
