@@ -20,9 +20,9 @@ class CreatePerdinsTable extends Migration
             $table->date('tanggal_pulang');
             $table->integer('durasi');
             $table->integer('uang_saku');
-            $table->string('id_pegawai');
-            $table->string('id_lokasi_awal');
-            $table->string('id_lokasi_tujuan');
+            $table->integer('id_pegawai');
+            $table->string('lokasi_awal');
+            $table->string('lokasi_tujuan');
             $table->string('id_approval')->nullable();
             $table->boolean('status');
             $table->timestamps();

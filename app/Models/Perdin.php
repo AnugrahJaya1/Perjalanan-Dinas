@@ -16,8 +16,8 @@ class Perdin extends Model
         'durasi',
         'uang_saku',
         'id_pegawai',
-        'id_lokasi_awal',
-        'id_lokasi_tujuan',
+        'lokasi_awal',
+        'lokasi_tujuan',
         'id_approval',
         'status'
     ];
