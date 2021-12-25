@@ -50,8 +50,8 @@ class PerdinController extends Controller
     {
         $data = $request->validate([
             'alasan_perdin' => ['required', 'string'],
-            'tanggal_berangkat' => ['required', 'date'],
-            'tanggal_pulang' => ['required', 'date'],
+            'tanggal_berangkat' => ['required', 'date', 'after:today'],
+            'tanggal_pulang' => ['required', 'date', 'after:tanggal_berangkat'],
             'id_lokasi_tujuan' => ['required', 'integer']
         ]);
 
@@ -99,6 +99,12 @@ class PerdinController extends Controller
     {
         $pegawai = Http::get('http://akhdani.net:12345/api/pegawai/username/' . Cookie::get('username'))->json();
         $perdin = Perdin::findOrFail($id);
+        dd($perdin);
+
+        // if($pegawai['pegawaiid']==$perdin->pegawaiid){
+        //     dd('hai');
+        // }
+
         $perdin->update([
             'id_approval' => $pegawai['pegawaiid'],
             'status' => 1
