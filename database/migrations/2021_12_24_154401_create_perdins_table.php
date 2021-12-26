@@ -15,7 +15,7 @@ class CreatePerdinsTable extends Migration
     {
         Schema::create('perdins', function (Blueprint $table) {
             $table->id();
-            $table->string('alasan_perdin');
+            $table->string('tujuan_perdin');
             $table->date('tanggal_berangkat');
             $table->date('tanggal_pulang');
             $table->integer('durasi');

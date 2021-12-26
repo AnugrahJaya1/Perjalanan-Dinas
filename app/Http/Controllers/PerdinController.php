@@ -97,7 +97,7 @@ class PerdinController extends Controller
         $uang_saku = $this->hitungUangSaku($jarak, $lokasi_awal, $lokasi_tujuan);
 
         Perdin::create([
-            'alasan_perdin' => $request['tujuan_perdin'],
+            'tujuan_perdin' => $request['tujuan_perdin'],
             'tanggal_berangkat' => $request['tanggal_berangkat'],
             'tanggal_pulang' => $request['tanggal_pulang'],
             'durasi' => $durasi,
@@ -133,7 +133,7 @@ class PerdinController extends Controller
         $perdin = Perdin::findOrFail($id);
 
         if ($pegawai['nama'] == $perdin['nama_pegawai']) {
-            return redirect()->route('perdins.index')->with('error', "You can't approve your own perdin");
+            return redirect()->route('perdins.index')->with('error', "You can't approve/reject your own perdin");
         }
 
         $perdin->update([

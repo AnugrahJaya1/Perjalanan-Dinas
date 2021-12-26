@@ -72,7 +72,7 @@
                         @if(Cookie::get('unitKerja')=='SDM')
                         <td>{{$perdin->nama_pegawai}}</td>
                         @endif
-                        <td>{{$perdin->alasan_perdin}}</td>
+                        <td>{{$perdin->tujuan_perdin}}</td>
                         <td>{{$perdin->tanggal_berangkat}}</td>
                         <td>{{$perdin->tanggal_pulang}}</td>
                         <td>{{$perdin->lokasi_awal}}</td>

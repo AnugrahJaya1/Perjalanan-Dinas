@@ -10,7 +10,7 @@ class Perdin extends Model
     use HasFactory;
 
     protected $fillable =[
-        'alasan_perdin',
+        'tujuan_perdin',
         'tanggal_berangkat',
         'tanggal_pulang',
         'durasi',
