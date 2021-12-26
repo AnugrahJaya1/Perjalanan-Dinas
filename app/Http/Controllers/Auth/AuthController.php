@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\CookieController;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class AuthController extends Controller
@@ -40,17 +41,16 @@ class AuthController extends Controller
                 'Server Error',
             );
         }
-
-        try {
-            $pegawai = Http::get('http://akhdani.net:12345/api/pegawai/username/' . $credentials['username'])->json();
-        } catch (Exception $e) {
-            return back()->with(
-                'message',
-                'Server Error',
-            );
-        }
-
+        
         if ($response) {
+            try {
+                $pegawai = Http::get('http://akhdani.net:12345/api/pegawai/username/' . $credentials['username'])->json();
+            } catch (Exception $e) {
+                return back()->with(
+                    'message',
+                    'Server Error',
+                );
+            }
             return redirect()->intended('/perdins')
                 ->cookie('username', $pegawai['username'], 60)
                 ->cookie('nama', $pegawai['nama'], 60)
