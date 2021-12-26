@@ -49,7 +49,10 @@ class PerdinController extends Controller
         try {
             $locations = Http::get('http://akhdani.net:12345/api/lokasi/list')->json();
         } catch (Exception $e) {
-            return redirect()->intended('/perdins');
+            return redirect()->intended('/perdins')->with(
+                'error',
+                'Server Error, Please try again',
+            );
         }
 
         return view('perdins.create', compact('locations'));
@@ -64,7 +67,7 @@ class PerdinController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'alasan_perdin' => ['required', 'string'],
+            'tujuan_perdin' => ['required', 'string'],
             'tanggal_berangkat' => ['required', 'date', 'after:today'],
             'tanggal_pulang' => ['required', 'date', 'after:tanggal_berangkat'],
             'id_lokasi_tujuan' => ['required', 'integer']
@@ -81,7 +84,10 @@ class PerdinController extends Controller
             $lokasi_awal = Http::get('http://akhdani.net:12345/api/lokasi/' . $id_lokasi_awal)->json();
             $lokasi_tujuan = Http::get('http://akhdani.net:12345/api/lokasi/' . $data['id_lokasi_tujuan'])->json();
         } catch (Exception $e) {
-            return redirect()->intended('/perdins');
+            return redirect()->intended('/perdins')->with(
+                'error',
+                'Server Error, Please try again',
+            );;
         }
 
         // hitung jarak lokasi awal dan lokasi tujuan
@@ -91,7 +97,7 @@ class PerdinController extends Controller
         $uang_saku = $this->hitungUangSaku($jarak, $lokasi_awal, $lokasi_tujuan);
 
         Perdin::create([
-            'alasan_perdin' => $request['alasan_perdin'],
+            'alasan_perdin' => $request['tujuan_perdin'],
             'tanggal_berangkat' => $request['tanggal_berangkat'],
             'tanggal_pulang' => $request['tanggal_pulang'],
             'durasi' => $durasi,
@@ -119,7 +125,10 @@ class PerdinController extends Controller
         try {
             $pegawai = Http::get('http://akhdani.net:12345/api/pegawai/username/' . Cookie::get('username'))->json();
         } catch (Exception $e) {
-            return redirect()->intended('/perdins');
+            return redirect()->intended('/perdins')->with(
+                'error',
+                'Server Error, Please try again',
+            );;
         }
         $perdin = Perdin::findOrFail($id);
 

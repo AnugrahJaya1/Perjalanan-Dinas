@@ -17,12 +17,12 @@
                         @csrf
 
                         <div class="row mb-3">
-                            <label for="alasan_perdin" class="col-md-4 col-form-label text-md-left">{{ __('Alasan Perdin') }}</label>
+                            <label for="tujuan_perdin" class="col-md-4 col-form-label text-md-left">{{ __('Tujuan Perdin') }}</label>
 
                             <div class="col-md-6">
-                                <input id="alasan_perdin" type="text" class="form-control @error('alasan_perdin') is-invalid @enderror" name="alasan_perdin" value="{{ old('alasan_perdin') }}" required autocomplete="alasan_perdin" autofocus>
+                                <input id="tujuan_perdin" type="text" class="form-control @error('tujuan_perdin') is-invalid @enderror" name="tujuan_perdin" value="{{ old('tujuan_perdin') }}" required autocomplete="tujuan_perdin" autofocus>
 
-                                @error('alasan_perdin')
+                                @error('tujuan_perdin')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
