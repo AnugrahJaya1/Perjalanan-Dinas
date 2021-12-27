@@ -67,7 +67,7 @@
                     $i = 1;
                     ?>
                     @foreach($perdins as $perdin)
-                    <tr @if($perdin->status!=0)
+                    <tr @if($perdin->status==0)
                             class="table-info"
                         @endif
                     >
@@ -91,7 +91,7 @@
                             @elseif($perdin->status==2)
                             <span class="badge badge-danger">Rejected</span>
                             @else
-                            <span class="badge badge-secondary">Please Wait</span>
+                            <span class="badge badge-secondary">New</span>
                             @endif
                         </td>
                         @if(Cookie::get('unitKerja')=='SDM')
