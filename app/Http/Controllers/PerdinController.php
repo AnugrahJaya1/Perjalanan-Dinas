@@ -27,7 +27,8 @@ class PerdinController extends Controller
         $data = $this->cookieController->getCookie();
         if ($this->cookieController->checkCookie($data)) return redirect()->intended('/');
 
-        $perdins = Perdin::orderBy('created_at', 'DESC');
+        $perdins = Perdin::orderBy('status', 'ASC')
+        ->orderBy('created_at', 'DESC');
         if ($data[2] != 'SDM') {
             $perdins = $perdins->where('nama_pegawai', 'like', $data[1]);
         }
