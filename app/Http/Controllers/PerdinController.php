@@ -22,16 +22,27 @@ class PerdinController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
         $data = $this->cookieController->getCookie();
         if ($this->cookieController->checkCookie($data)) return redirect()->intended('/');
 
-        $perdins = Perdin::orderBy('created_at', 'DESC')->get();
+        $perdins = Perdin::orderBy('created_at', 'DESC');
         if ($data[2] != 'SDM') {
-            $perdins = Perdin::where('nama_pegawai', 'like', $data[1])
-            ->orderBy('created_at', 'DESC')->get();
+            $perdins = $perdins->where('nama_pegawai', 'like', $data[1]);
         }
+
+        if ($request->has('search')) {
+            $perdins = $perdins->where('lokasi_tujuan', 'like', "%{$request->search}%")
+                ->orWhere('tujuan_perdin', 'like', "%{$request->search}%");
+            if ($data[2] == 'SDM') {
+                $perdins = $perdins->orWhere('nama_pegawai', 'like', "%{$request->search}%");
+            }else{
+                $perdins = $perdins->where('nama_pegawai', 'like', $data[1]);
+            }
+        }
+
+        $perdins = $perdins->get();
 
         return response(view('perdins.index', compact('perdins')));
     }
