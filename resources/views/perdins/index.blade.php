@@ -67,7 +67,10 @@
                     $i = 1;
                     ?>
                     @foreach($perdins as $perdin)
-                    <tr>
+                    <tr @if($perdin->status!=0)
+                            class="table-info"
+                        @endif
+                    >
                         <td>{{$i}}</td>
                         @if(Cookie::get('unitKerja')=='SDM')
                         <td>{{$perdin->nama_pegawai}}</td>
