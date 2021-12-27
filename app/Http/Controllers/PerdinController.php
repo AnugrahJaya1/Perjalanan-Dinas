@@ -157,7 +157,7 @@ class PerdinController extends Controller
 
     private function hitungUangSaku($jarak, $lokasi_awal, $lokasi_tujuan)
     {
-        if ($jarak >= 0 && $jarak < 60) {
+        if ($jarak >= 0 && $jarak <= 60) {
             return 0;
         } else {
             if ($lokasi_awal['provinsi'] == $lokasi_tujuan['provinsi']) { // satu provinsi
