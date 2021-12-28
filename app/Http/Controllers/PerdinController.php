@@ -112,7 +112,7 @@ class PerdinController extends Controller
             'tujuan_perdin' => $request['tujuan_perdin'],
             'tanggal_berangkat' => $request['tanggal_berangkat'],
             'tanggal_pulang' => $request['tanggal_pulang'],
-            'durasi' => $durasi,
+            'durasi' => $durasi +1,
             'uang_saku' => $uang_saku,
             'nama_pegawai' => Cookie::get('nama'),
             'lokasi_awal' => $lokasi_awal['nama'],
@@ -161,7 +161,9 @@ class PerdinController extends Controller
         if ($jarak >= 0 && $jarak <= 60) {
             return 0;
         } else {
-            if ($lokasi_awal['provinsi'] == $lokasi_tujuan['provinsi']) { // satu provinsi
+            if($lokasi_tujuan['isln']=="Y"){
+                return 50; // USD
+            } else if ($lokasi_awal['provinsi'] == $lokasi_tujuan['provinsi']) { // satu provinsi
                 return 200000;
             } else if (($lokasi_awal['provinsi'] != $lokasi_tujuan['provinsi']) && ($lokasi_awal['pulau'] == $lokasi_tujuan['pulau'])) { // luar provinsi dan satu pulau
                 return 250000;
